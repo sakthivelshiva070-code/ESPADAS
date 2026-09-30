@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply bg-stone-50 text-slate-900 font-sans; }
+:focus-visible { outline: 3px solid #0f766e; outline-offset: 2px; }
+
+/* Student accessibility modes (toggled by AccessibilityToolbar) */
+.a11y-dyslexia, .a11y-dyslexia * { font-family: "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif !important; letter-spacing: 0.03em; }
+.a11y-contrast { background: #000 !important; color: #ffe600 !important; }
+.a11y-contrast * { background-color: #000 !important; color: #ffe600 !important; border-color: #ffe600 !important; }
+.a11y-contrast button, .a11y-contrast input:checked + span { outline: 2px solid #ffe600; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
