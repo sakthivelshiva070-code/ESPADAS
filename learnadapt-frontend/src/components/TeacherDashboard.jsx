@@ -19,9 +19,9 @@ export default function TeacherDashboard({ user }) {
   const load = useCallback(async () => {
     try {
       const [d, p] = await Promise.all([
-        api.get(`/api/teacher/dashboard/${user.id}`),
-        api.get(`/api/teacher/pending-adaptations/${user.id}`),
-      ]);
+        api.get(`/teacher/dashboard/${user.id}`),
+        api.get(`/teacher/pending-adaptations/${user.id}`),
+        ]);
       setStats(d.data.stats || d.data);
       setPending(asList(p.data));
     } catch { setMsg("Could not load dashboard data. Is the backend running?"); }
@@ -33,7 +33,7 @@ export default function TeacherDashboard({ user }) {
     e.preventDefault();
     setCreating(true); setMsg("");
     try {
-      await api.post("/api/lessons/create", {
+      await api.post("/lessons/create", {
         teacher_id: user.id, subject: form.subject, grade: Number(form.grade),
         topic: form.topic, objective: form.objective, learning_objective: form.objective,
       });
