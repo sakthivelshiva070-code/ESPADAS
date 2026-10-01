@@ -17,15 +17,18 @@ export default function TeacherDashboard({ user }) {
   const [creating, setCreating] = useState(false);
 
   const load = useCallback(async () => {
-    try {
-      const [d, p] = await Promise.all([
-        api.get(`/teacher/dashboard/${user.id}`),
-        api.get(`/teacher/pending-adaptations/${user.id}`),
-        ]);
-      setStats(d.data.stats || d.data);
-      setPending(asList(p.data));
-    } catch { setMsg("Could not load dashboard data. Is the backend running?"); }
-  }, [user.id]);
+  if (!user || !user.id) return; // Prevent invalid requests if user isn't loaded yet
+  try {
+    const [d, p] = await Promise.all([
+      api.get(`/teacher/dashboard/${user.id}`),
+      api.get(`/teacher/pending-adaptations/${user.id}`),
+    ]);
+    setStats(d.data.stats || d.data);
+    setPending(asList(p.data));
+  } catch { 
+    setMsg("Could not load dashboard data. Is the backend running?"); 
+  }
+}, [user]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -45,7 +48,7 @@ export default function TeacherDashboard({ user }) {
   };
 
   const review = async (activity_id, action, content) => {
-    await api.post("/api/teacher/review-adaptation", { activity_id, action, ...(content ? { content_json: JSON.stringify(content) } : {}) });
+    await api.post("/teacher/review-adaptation", { activity_id, action, ...(content ? { content_json: JSON.stringify(content) } : {}) });
     load();
   };
 
